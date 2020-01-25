@@ -1,0 +1,144 @@
+SCRManager:
+    MainScreen:
+    EmbedScreen:
+    RevealScreen:
+
+
+<MainScreen>:
+    name: 'main'
+
+    BoxLayout:
+        orientation: "vertical"
+        Image:
+            source: 'logo.png'
+
+        Button:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: "Embed Data"
+            on_release:
+                app.root.current = "embedscreen"
+                root.manager.transition.direction = "left"
+
+        Button:
+            pos_hint: {'center_x': .5, 'top': 1}
+            text: "Reveal Message"
+            on_release:
+                app.root.current = "revealscreen"
+                root.manager.transition.direction = "right"
+
+
+<EmbedScreen>:
+    id: embed
+    name: 'embedscreen'
+    orientation: "vertical"
+
+    BoxLayout:
+        orientation: "vertical"
+
+        FileChooserIconView:
+            id: filechooser
+            filters: ['*.png']
+            size_hint: 1, 3
+            on_selection:
+                embed.selected(filechooser.selection)
+        BoxLayout:
+            orientation: "horizontal"
+            Image:
+                id: eimage
+                size_hint: 1, 1
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Embed Offset:"
+                size_hint: .5, .3
+            TextInput:
+                text: "0"
+                id: offsetinte
+                size_hint: .3, .4
+                multiline: False
+            Label:
+                text: "Message to embed:"
+                size_hint: 1, .3
+            TextInput:
+                text: "a super duper secret message"
+                id: secmsg
+                size_hint: 1, .4
+                multiline: False
+
+        BoxLayout:
+            orientation: "horizontal"
+            Button:
+                text: "Embed"
+                size_hint: .2, .5
+                on_release: embed.open_embed(filechooser.path, filechooser.selection)
+
+            Button:
+                pos_hint: {"center_x": .5}
+                text: "Back to Main"
+                size_hint: .2, .5
+                on_release:
+                    app.root.current = "main"
+                    root.manager.transition.direction = "left"
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Ready to embed data..."
+                id: savedmsg
+                size_hint: 1, .2
+
+
+
+<RevealScreen>:
+    id: reveal
+    name: 'revealscreen'
+    orientation: "vertical"
+
+    BoxLayout:
+        orientation: "vertical"
+
+        FileChooserIconView:
+            id: rfilechooser
+            filters: ['*.png']
+            size_hint: 1, 2
+            on_selection:
+                reveal.selected(rfilechooser.selection)
+
+        BoxLayout:
+            orientation: "vertical"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Image:
+                    id: rimage
+                    source: "logo.png"
+
+                Label:
+                    text: "Embed Offset:"
+                TextInput:
+                    text: "0"
+                    size_hint: .2, .5
+                    id: offsetintr
+                    multiline: False
+
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    id: revmsg
+                    text: "** Embedded Message Displayed Here **"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Button:
+                    text: "Reveal"
+                    size_hint: .2, .5
+                    on_release: reveal.open_reveal(rfilechooser.path, rfilechooser.selection)
+
+                Button:
+                    pos_hint: {"center_x": .5}
+                    text: "Back to Main"
+                    size_hint: .2, .5
+                    on_release:
+                        app.root.current = "main"
+                        root.manager.transition.direction = "left"
+

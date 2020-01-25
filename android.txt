@@ -1,0 +1,3 @@
+title=Steg0saurus
+author=Jon
+orientation=portrait
